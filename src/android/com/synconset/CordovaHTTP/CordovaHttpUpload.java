@@ -48,7 +48,6 @@ public class CordovaHttpUpload extends CordovaHttp implements Runnable {
             String ext = filePath.substring(index + 1);
             MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
             String mimeType = mimeTypeMap.getMimeTypeFromExtension(ext);
-            request.part(this.name, filename, mimeType, new File(uri));
             
             Set<?> set = (Set<?>)this.getParams().entrySet();
             Iterator<?> i = set.iterator();
@@ -65,11 +64,14 @@ public class CordovaHttpUpload extends CordovaHttp implements Runnable {
                     return;
                 }
             }
+
+            request.part(this.name, filename, mimeType, new File(uri));
             
             int code = request.code();
             String body = request.body(CHARSET);
             
             JSONObject response = new JSONObject();
+            this.addResponseHeaders(request, response);
             response.put("status", code);
             if (code >= 200 && code < 300) {
                 response.put("data", body);
