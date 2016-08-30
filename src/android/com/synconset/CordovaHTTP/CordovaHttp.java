@@ -42,12 +42,20 @@ public abstract class CordovaHttp {
     private String urlString;
     private Map<?, ?> params;
     private JSONObject jsonObject;
+    private String jsonString;
     private Map<String, String> headers;
     private CallbackContext callbackContext;
 
     public CordovaHttp(String urlString, JSONObject jsonObj, Map<String, String> headers, CallbackContext callbackContext) {
         this.urlString = urlString;
         this.jsonObject = jsonObj;
+        this.headers = headers;
+        this.callbackContext = callbackContext;
+    }
+    
+    public CordovaHttp(String urlString, String jsonString, Map<String, String> headers, CallbackContext callbackContext) {
+        this.urlString = urlString;
+        this.jsonString = jsonString;
         this.headers = headers;
         this.callbackContext = callbackContext;
     }
@@ -87,6 +95,10 @@ public abstract class CordovaHttp {
 
     protected JSONObject getJsonObject() {
         return this.jsonObject;
+    }
+    
+    protected String getJsonString() {
+        return this.jsonString;
     }
     
     protected Map<String, String> getHeaders() {
