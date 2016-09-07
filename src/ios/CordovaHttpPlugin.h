@@ -18,4 +18,9 @@
 - (void)uploadFile:(CDVInvokedUrlCommand*)command;
 - (void)downloadFile:(CDVInvokedUrlCommand*)command;
 
+
+
+// todo some staff
+
+
 @end
