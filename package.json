@@ -1,9 +1,9 @@
 {
-  "name": "cordova-plugin-http",
-  "version": "1.0.2",
+  "name": "cordova-plugin-http-json",
+  "version": "1.1.0",
   "description": "Cordova / Phonegap plugin for communicating with HTTP servers using SSL pinning",
   "cordova": {
-    "id": "cordova-plugin-http",
+    "id": "cordova-plugin-http-json",
     "platforms": [
       "ios",
       "android"
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wymsee/cordova-HTTP.git"
+    "url": "git+https://github.com/azkurban/SecureHTTP.git"
   },
   "keywords": [
     "cordova",
@@ -29,7 +29,7 @@
   "author": "Wymsee",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wymsee/cordova-HTTP/issues"
+    "url": "https://github.com/azkurban/SecureHTTP"
   },
-  "homepage": "https://github.com/wymsee/cordova-HTTP#readme"
+  "homepage": "https://github.com/azkurban/SecureHTTP#readme"
 }
