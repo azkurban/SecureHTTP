@@ -180,7 +180,7 @@
     }];
 }
 
-(void)put:(CDVInvokedUrlCommand*)command {
+- (void)put:(CDVInvokedUrlCommand*)command {
    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
    NSString *url = [command.arguments objectAtIndex:0];
    NSDictionary *parameters = [command.arguments objectAtIndex:1];
@@ -212,7 +212,7 @@
    }];
 }
 
-(void)putJson:(CDVInvokedUrlCommand*)command {
+- (void)putJson:(CDVInvokedUrlCommand*)command {
    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
    NSString *url = [command.arguments objectAtIndex:0];
    NSData *parameters = [command.arguments objectAtIndex:1];
@@ -246,11 +246,11 @@
 }
 
 - (void)delete:(CDVInvokedUrlCommand*)command {
-   HttpManager *manager = [HttpManager sharedClient];
+   AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
    NSString *url = [command.arguments objectAtIndex:0];
    NSDictionary *parameters = [command.arguments objectAtIndex:1];
    NSDictionary *headers = [command.arguments objectAtIndex:2];
-   [self setRequestHeaders: headers];
+  [self setRequestHeaders: headers forManager:manager];
    
    CordovaHttpPlugin* __weak weakSelf = self;
    
