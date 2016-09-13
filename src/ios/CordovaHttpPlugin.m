@@ -200,7 +200,6 @@
       [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
    } failure:^(NSURLSessionTask *task, NSError *error) {
       NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-      NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
       [self setResults: dictionary withTask: task];
       [dictionary setObject:[error localizedDescription] forKey:@"error"];
       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
@@ -229,7 +228,6 @@
       [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
    } failure:^(NSURLSessionTask *task, NSError *error) {
       NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-      NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
       [self setResults: dictionary withTask: task];
       [dictionary setObject:[error localizedDescription] forKey:@"error"];
       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
@@ -254,7 +252,6 @@
       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dictionary];
       [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
    } failure:^(NSURLSessionTask *task, NSError *error) {
-      NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
       NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
       [self setResults: dictionary withTask: task];
       [dictionary setObject:[error localizedDescription] forKey:@"error"];
