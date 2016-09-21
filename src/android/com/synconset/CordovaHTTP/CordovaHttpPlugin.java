@@ -82,13 +82,13 @@ public class CordovaHttpPlugin extends CordovaPlugin {
                                          HashMap<String, String> headers,
                                          Map<String, Object> params)  {
         try {
-            Log.i("Cordova", "Headers before:\n" + headers);
+            //Log.i("Cordova", "Headers before:\n" + headers);
             String data = createCanonicalRepresentation(method, path, headers, params);
             String signature = createSignature(data);
-            Log.i("Cordova", "Canonical Representation:\n" + data);
-            Log.i("Cordova", "Signature: " + signature);
+            //Log.i("Cordova", "Canonical Representation:\n" + data);
+            //Log.i("Cordova", "Signature: " + signature);
             headers.put(HEADER_SIGNATURE, signature);
-            Log.i("Cordova", "Headers After:\n" + headers);
+            //Log.i("Cordova", "Headers After:\n" + headers);
         }
         catch(Exception ex) {
             ex.printStackTrace();
@@ -99,16 +99,6 @@ public class CordovaHttpPlugin extends CordovaPlugin {
     private static List<String> getSortedKeys(Map<String, ?> map) {
         List<String> keys = new ArrayList<String>(map.keySet());
         Collections.sort(keys);
-/*
-        , new Comparator<String>() {
-            @Override
-            public int compare(String lhs, String rhs) {
-                if (lhs == null) return rhs == null ? 0 : -1;
-                if (rhs == null) return 1;
-                return lhs.compareTo(rhs);
-            }
-        });
-*/        
         return keys;
     }
 
@@ -123,10 +113,6 @@ public class CordovaHttpPlugin extends CordovaPlugin {
         canonicalRepresentation += "content-md5: " +  headers.get(HEADER_CONTECT_MD5)  + "\n";
         canonicalRepresentation += "date: " +  headers.get(HEADER_DATE) + "\n";
         canonicalRepresentation += "x-fara-apikey: " +  headers.get(HEADER_API) + "\n";
-
-        // for (String key : getSortedKeys(headers)) {
-        //     canonicalRepresentation += key.toLowerCase() + ": " +  headers.get(key) + "\n";
-        // }
 
         if (queryParameters != null && queryParameters.size() > 0) {
             boolean first = true;
@@ -182,20 +168,7 @@ public class CordovaHttpPlugin extends CordovaPlugin {
 
         return signatureAsString;
     }
-/*
-    private static Map<String, String> getQueryParameters(HashMap<?, ?> paramsMap){
-        HashMap<String, String> map = new HashMap<String, String>();
-            
-            Iterator<?> iterator = paramsMap.entrySet().iterator();
-            
-            while(iterator.hasNext()){
-                Entry<?, ?> entry = (Entry<?, ?>) iterator.next();
-                map.put(entry.getKey(), entry.getValue);
-            }
 
-            return map;
-    }
-*/
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
@@ -210,7 +183,6 @@ public class CordovaHttpPlugin extends CordovaPlugin {
             JSONObject headers = args.getJSONObject(2);
             HashMap<String, Object> paramsMap = this.getMapFromJSONObject(params);
             HashMap<String, String> headersMap = this.getStringMapFromJSONObject(headers);
-            //HashMap<String, String> queryParameters =  getQueryParameters(paramsMap);
             setHeaderSignature("GET", urlString, headersMap, paramsMap);
             CordovaHttpGet get = new CordovaHttpGet(urlString, paramsMap, headersMap, callbackContext);
             cordova.getThreadPool().execute(get);
