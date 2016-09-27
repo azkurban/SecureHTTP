@@ -550,7 +550,7 @@ NSData* PKCSSignBytesSHA256withRSA(NSData* plainData, SecKeyRef privateKey)
                                                                 NSLog(@"OBJ C Log: Request success: %@", responseObject);
                                                                 NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
                                                                 [self setResults: dictionary withTask: dataTask];
-                                                                [dictionary setObject:responseObject forKey:@"data"];
+                                                                [dictionary setObject: responseObject?responseObject:@"" forKey:@"data"];
                                                                 CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dictionary];
                                                                 [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                                                             }
