@@ -7,6 +7,7 @@
 #define HEADER_CONTECT_MD5 @"Content-MD5"
 #define HEADER_API @"X-Fara-ApiKey"
 #define HEADER_SIGNATURE @"X-Fara-Signature"
+#define HEADER_CONTENT_TYPE @"Content-Type"
 
 #import <Security/Security.h>
 #import <Security/SecItem.h>
@@ -513,6 +514,7 @@ NSData* PKCSSignBytesSHA256withRSA(NSData* plainData, SecKeyRef privateKey)
     NSString *md5 = [headers objectForKey: HEADER_CONTECT_MD5];
     NSString *date = [headers objectForKey: HEADER_DATE];
     NSString *apiKey = [headers objectForKey: HEADER_API];
+    NSString *contentType = [headers objectForKey: HEADER_CONTENT_TYPE];
     
     NSString *canonicalRepresentation = [self canonicalRepresentation: headers method: method url: url params: parameters];
     NSData *signedData = PKCSSignBytesSHA256withRSA([canonicalRepresentation dataUsingEncoding: NSUTF8StringEncoding], getPrivateKeyRef(self.p12Data));
@@ -525,7 +527,7 @@ NSData* PKCSSignBytesSHA256withRSA(NSData* plainData, SecKeyRef privateKey)
         return;
     }
     [request setValue: @"en" forHTTPHeaderField: @"Accept-Language"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue: contentType forHTTPHeaderField: HEADER_CONTENT_TYPE];
     [request setValue: md5 forHTTPHeaderField: HEADER_CONTECT_MD5];
     [request setValue: date forHTTPHeaderField: HEADER_DATE];
     [request setValue: apiKey forHTTPHeaderField: HEADER_API];
