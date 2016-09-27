@@ -73,6 +73,10 @@ var http = {
         headers = mergeHeaders(this.headers, headers);
         return exec(success, failure, "CordovaHttpPlugin", "putJson", [url, json, headers]);
     },
+    putJsonString: function(url, jsonString, headers, success, failure) {
+        headers = mergeHeaders(this.headers, headers);
+        return exec(success, failure, "CordovaHttpPlugin", "putJsonString", [url, jsonString, headers]);
+    },
     delete: function (url, params, headers, success, failure) {
         return exec(success, failure, "CordovaHttpPlugin", "delete", [url, params, headers]);
     },
@@ -191,6 +195,9 @@ if (typeof angular !== "undefined") {
             },
             putJson: function(url, json, headers) {
                 return makePromise(http.putJson, [url, json, headers], true);
+            },
+            putJsonString: function(url, jsonString, headers) {
+                return makePromise(http.putJsonString, [url, jsonString, headers], true);
             },
             uploadFile: function(url, params, headers, filePath, name) {
                 return makePromise(http.uploadFile, [url, params, headers, filePath, name], true);
