@@ -507,7 +507,8 @@ NSData* PKCSSignBytesSHA256withRSA(NSData* plainData, SecKeyRef privateKey)
 - (void) urlRequestWithMethod: (NSString *) method command: (CDVInvokedUrlCommand *) command {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSString *url = [command.arguments objectAtIndex:0];
-    NSString *parameters = [command.arguments objectAtIndex:1];
+    
+    id parameters = [command.arguments objectAtIndex:1];
     NSDictionary *headers = [command.arguments objectAtIndex:2];
     NSString *md5 = [headers objectForKey: HEADER_CONTECT_MD5];
     NSString *date = [headers objectForKey: HEADER_DATE];
@@ -529,7 +530,20 @@ NSData* PKCSSignBytesSHA256withRSA(NSData* plainData, SecKeyRef privateKey)
     [request setValue: date forHTTPHeaderField: HEADER_DATE];
     [request setValue: apiKey forHTTPHeaderField: HEADER_API];
     [request setValue: xFataSignature forHTTPHeaderField: HEADER_SIGNATURE];
-    [request setHTTPBody: [parameters dataUsingEncoding: NSUTF8StringEncoding]];
+    if (![method isEqualToString: @"GET"]) {
+        if ([parameters isKindOfClass: [NSDictionary class]]) {
+            NSError *error;
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject: parameters options: NSJSONWritingPrettyPrinted error: &error];
+            if (!error) {
+                [request setHTTPBody: jsonData];
+            }
+            
+        }
+        if ([parameters isKindOfClass: [NSString class]]) {
+            [request setHTTPBody: [parameters dataUsingEncoding: NSUTF8StringEncoding]];
+        }
+    }
+    
     
     CordovaHttpPlugin* __weak weakSelf = self;
     __block NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request
@@ -574,6 +588,10 @@ NSData* PKCSSignBytesSHA256withRSA(NSData* plainData, SecKeyRef privateKey)
     [self urlRequestWithMethod: method command: command];
 }
 
+- (void)putJsonString:(CDVInvokedUrlCommand*)command {
+    NSString *method = @"PUT";
+    [self urlRequestWithMethod: method command: command];
+}
 
 - (void)post:(CDVInvokedUrlCommand*)command {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
