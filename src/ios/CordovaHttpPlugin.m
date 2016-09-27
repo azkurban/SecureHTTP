@@ -540,7 +540,9 @@ NSData* PKCSSignBytesSHA256withRSA(NSData* plainData, SecKeyRef privateKey)
                                                                 NSLog(@"OBJ C Log: Request failed: %@", error.localizedDescription);
                                                                 NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
                                                                 [self setResults: dictionary withTask: dataTask];
-                                                                [dictionary setObject:[error localizedDescription] forKey:@"error"];
+                                                                NSData *data = [error.userInfo objectForKey: @"com.alamofire.serialization.response.error.data"];
+                                                                NSString *string = [[NSString alloc] initWithData:  data encoding: NSUTF8StringEncoding];
+                                                                [dictionary setObject: string forKey:@"error"];
                                                                 CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
                                                                 [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                                                             }
