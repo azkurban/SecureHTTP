@@ -82,13 +82,13 @@ public class CordovaHttpPlugin extends CordovaPlugin {
                                          HashMap<String, String> headers,
                                          Map<String, Object> params)  {
         try {
-            //Log.i("Cordova", "Headers before:\n" + headers);
+            Log.i("Cordova", "Headers before:\n" + headers);
             String data = createCanonicalRepresentation(method, path, headers, params);
             String signature = createSignature(data);
-            //Log.i("Cordova", "Canonical Representation:\n" + data);
-            //Log.i("Cordova", "Signature: " + signature);
+            Log.i("Cordova", "Canonical Representation:\n" + data);
+            Log.i("Cordova", "Signature: " + signature);
             headers.put(HEADER_SIGNATURE, signature);
-            //Log.i("Cordova", "Headers After:\n" + headers);
+            Log.i("Cordova", "Headers After:\n" + headers);
         }
         catch(Exception ex) {
             ex.printStackTrace();
