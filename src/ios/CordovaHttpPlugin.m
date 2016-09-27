@@ -8,7 +8,7 @@
 #define HEADER_API @"X-Fara-ApiKey"
 #define HEADER_SIGNATURE @"X-Fara-Signature"
 
-#import "Cordova/NSData+Base64.h"
+#import "NSData+Base64.h"
 #import <Security/Security.h>
 #import <Security/SecItem.h>
 #include <CommonCrypto/CommonDigest.h>
