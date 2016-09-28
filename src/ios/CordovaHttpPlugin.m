@@ -508,14 +508,15 @@ NSData* PKCSSignBytesSHA256withRSA(NSData* plainData, SecKeyRef privateKey)
 - (void) urlRequestWithMethod: (NSString *) method command: (CDVInvokedUrlCommand *) command {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [TextResponseSerializer serializer];
+
     NSString *url = [command.arguments objectAtIndex:0];
-    
     id parameters = [command.arguments objectAtIndex:1];
     NSDictionary *headers = [command.arguments objectAtIndex:2];
-    NSString *md5 = [headers objectForKey: HEADER_CONTECT_MD5];
-    NSString *date = [headers objectForKey: HEADER_DATE];
-    NSString *apiKey = [headers objectForKey: HEADER_API];
-    NSString *contentType = [headers objectForKey: HEADER_CONTENT_TYPE];
+    
+    /*NSString *md5 = [headers objectForKey: HEADER_CONTECT_MD5];
+     NSString *date = [headers objectForKey: HEADER_DATE];
+     NSString *apiKey = [headers objectForKey: HEADER_API];
+     NSString *contentType = [headers objectForKey: HEADER_CONTENT_TYPE];*/
     
     NSString *canonicalRepresentation = [self canonicalRepresentation: headers method: method url: url params: parameters];
     NSData *signedData = PKCSSignBytesSHA256withRSA([canonicalRepresentation dataUsingEncoding: NSUTF8StringEncoding], getPrivateKeyRef(self.p12Data));
@@ -527,12 +528,16 @@ NSData* PKCSSignBytesSHA256withRSA(NSData* plainData, SecKeyRef privateKey)
         NSLog(@"Serialization error: %@", serializationError.localizedDescription);
         return;
     }
-    [request setValue: @"en" forHTTPHeaderField: @"Accept-Language"];
-    [request setValue: contentType forHTTPHeaderField: HEADER_CONTENT_TYPE];
-    [request setValue: md5 forHTTPHeaderField: HEADER_CONTECT_MD5];
-    [request setValue: date forHTTPHeaderField: HEADER_DATE];
-    [request setValue: apiKey forHTTPHeaderField: HEADER_API];
+    
+    [request setAllHTTPHeaderFields: headers];
     [request setValue: xFataSignature forHTTPHeaderField: HEADER_SIGNATURE];
+    
+    /*[request setValue: @"en" forHTTPHeaderField: @"Accept-Language"];
+     [request setValue: contentType forHTTPHeaderField: HEADER_CONTENT_TYPE];
+     [request setValue: md5 forHTTPHeaderField: HEADER_CONTECT_MD5];
+     [request setValue: date forHTTPHeaderField: HEADER_DATE];
+     [request setValue: apiKey forHTTPHeaderField: HEADER_API];*/
+
     if (![method isEqualToString: @"GET"]) {
         if ([parameters isKindOfClass: [NSDictionary class]]) {
             NSError *error;
