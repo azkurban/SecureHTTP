@@ -507,6 +507,7 @@ NSData* PKCSSignBytesSHA256withRSA(NSData* plainData, SecKeyRef privateKey)
 
 - (void) urlRequestWithMethod: (NSString *) method command: (CDVInvokedUrlCommand *) command {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [TextResponseSerializer serializer];
     NSString *url = [command.arguments objectAtIndex:0];
     
     id parameters = [command.arguments objectAtIndex:1];
