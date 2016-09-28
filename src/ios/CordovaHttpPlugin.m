@@ -396,7 +396,10 @@ char *NewBase64Encode(
             }
         }
         else if([params isKindOfClass: [NSString class]]) {
-            requestParams = params;
+            NSString *str = params;
+            if (str.length) {
+                requestParams = params;
+            }
         }
     }
     return [NSString stringWithFormat: @"%@\n%@\ncontent-md5: %@\ndate: %@\nx-fara-apikey: %@\n%@\n", method, path, md5, date, apiKey, requestParams];
