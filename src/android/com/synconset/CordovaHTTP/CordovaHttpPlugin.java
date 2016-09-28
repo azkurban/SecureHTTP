@@ -234,6 +234,14 @@ public class CordovaHttpPlugin extends CordovaPlugin {
             setHeaderSignature("PUT", urlString, headersMap, null);
             CordovaHttpPutJson putJson = new CordovaHttpPutJson(urlString, jsonObj, headersMap, callbackContext);
             cordova.getThreadPool().execute(putJson);
+        } else if (action.equals("putJsonString")) {
+            String urlString = args.getString(0);
+            String jsonString = args.getString(1);
+            JSONObject headers = args.getJSONObject(2);
+            HashMap<String, String> headersMap = this.getStringMapFromJSONObject(headers);
+            setHeaderSignature("PUT", urlString, headersMap, null);
+            CordovaHttpPutJsonString putJsonString = new CordovaHttpPutJsonString(urlString, jsonString, headersMap, callbackContext);
+            cordova.getThreadPool().execute(putJsonString);
         } else if (action.equals("delete")) {
             String urlString = args.getString(0);
             JSONObject params = args.getJSONObject(1);
