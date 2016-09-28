@@ -80,6 +80,7 @@
 
         <source-file src="src/android/com/synconset/CordovaHTTP/CordovaHttpPut.java" target-dir="src/com/synconset" />
         <source-file src="src/android/com/synconset/CordovaHTTP/CordovaHttpPutJson.java" target-dir="src/com/synconset" />
+        <source-file src="src/android/com/synconset/CordovaHTTP/CordovaHttpPutJsonString.java" target-dir="src/com/synconset" />
         <source-file src="src/android/com/synconset/CordovaHTTP/CordovaHttpDelete.java" target-dir="src/com/synconset" />
 
         <source-file src="src/android/com/synconset/CordovaHTTP/CordovaHttpUpload.java" target-dir="src/com/synconset" />
