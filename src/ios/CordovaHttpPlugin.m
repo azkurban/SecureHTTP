@@ -373,18 +373,34 @@ char *NewBase64Encode(
 
 #pragma mark - SHA256 with RSA signing
 
--(NSString *) canonicalRepresentation: (NSDictionary *) headers method: (NSString *) method url: (NSString *) url params: (NSString *) params {
+-(NSString *) canonicalRepresentation: (NSDictionary *) headers method: (NSString *) method url: (NSString *) url params: (id) params {
     NSString *path = [url stringByReplacingOccurrencesOfString: @"http://92.62.44.150/sales-service-rest" withString: @"" options: NSCaseInsensitiveSearch range: NSMakeRange(0, url.length)];
     NSString *md5 = [headers objectForKey: HEADER_CONTECT_MD5];
     NSString *date = [headers objectForKey: HEADER_DATE];
     NSString *apiKey = [headers objectForKey: HEADER_API];
-    NSString *requestParams = nil;
+    NSString *requestParams = @"";
     if ([method isEqualToString: @"GET"]) {
-        requestParams = params;
+        if ([params isKindOfClass: [NSDictionary class]]) {
+            NSDictionary *d = params;
+            if (d.allKeys.count) {
+                NSArray *allKeys = [d.allKeys sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+                for (id key in allKeys) {
+                    NSString *str = [NSString stringWithFormat: @"%@=%@",key, [d objectForKey: key]];
+                    NSString *escapedString = [[str stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]] lowercaseString];
+                    requestParams = [requestParams stringByAppendingString: escapedString];
+                    NSUInteger index = [allKeys indexOfObject: key];
+                    if (index < allKeys.count-1) {
+                        requestParams = [requestParams stringByAppendingFormat: @"&"];
+                    }
+                }
+            }
+        }
+        else if([params isKindOfClass: [NSString class]]) {
+            requestParams = params;
+        }
     }
-    return [NSString stringWithFormat: @"%@\n%@\ncontent-md5: %@\ndate: %@\nx-fara-apikey: %@\n%@\n", method, path, md5, date, apiKey, requestParams?requestParams:@""];
+    return [NSString stringWithFormat: @"%@\n%@\ncontent-md5: %@\ndate: %@\nx-fara-apikey: %@\n%@\n", method, path, md5, date, apiKey, requestParams];
 }
-
 SecKeyRef getPrivateKeyRef(NSData *p12Data) {
     
     NSMutableDictionary * options = [[NSMutableDictionary alloc] init];
